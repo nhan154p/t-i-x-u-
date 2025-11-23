@@ -1,11 +1,14 @@
 <!-- filepath: c:\Users\DELL LATITUDE 7490\OneDrive\Documents\web tx\netlify.toml -->
 [build]
-  command = "echo 'Building...'"
+  command = "echo 'No build needed - static site'"
   publish = "."
+  base = "."
+  functions = "netlify/functions"
 
 [dev]
   command = "python -m http.server 8000"
   port = 8000
+  publish = "."
 
 [[redirects]]
   from = "/*"
@@ -15,15 +18,44 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Cache-Control = "public, max-age=3600"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
 [[headers]]
   for = "*.js"
   [headers.values]
     Content-Type = "text/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "*.css"
   [headers.values]
     Content-Type = "text/css; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.json"
+  [headers.values]
+    Content-Type = "application/json; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "text/html; charset=utf-8"
+
+[context.production]
+  command = "echo 'Production build'"
+  publish = "."
+
+[context.deploy-preview]
+  command = "echo 'Deploy preview'"
+  publish = "."
+
+[context.branch-deploy]
+  command = "echo 'Branch deploy'"
+  publish = "."
