@@ -1,0 +1,29 @@
+<!-- filepath: c:\Users\DELL LATITUDE 7490\OneDrive\Documents\web tx\netlify.toml -->
+[build]
+  command = "echo 'Building...'"
+  publish = "."
+
+[dev]
+  command = "python -m http.server 8000"
+  port = 8000
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
