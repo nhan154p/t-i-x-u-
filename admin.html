@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
+    <!-- Quick Access Links (top-left) -->
+    <div class="quick-links">
+        <a href="/" class="link-btn">🎮 Về Game</a>
+        <a href="/admin" class="link-btn active">👨‍💼 Admin</a>
+    </div>
+
     <!-- Login Screen -->
     <div id="login-screen" class="login-container">
         <div class="login-box">
             <h1>🔐 Admin Login</h1>
+            <p class="info-text">Nhập mật khẩu admin để vào dashboard</p>
             <form id="login-form">
                 <input type="password" id="admin-password" placeholder="Nhập mật khẩu admin" required>
                 <button type="submit" class="btn-login">Đăng nhập</button>
             </form>
             <p id="login-error" class="error-message"></p>
+            <hr>
+            <p class="info-small">💡 Mật khẩu mặc định: <code>admin123</code></p>
+            <p class="info-small">⚠️ Đổi mật khẩu ngay khi sử dụng trên production!</p>
         </div>
     </div>
 
