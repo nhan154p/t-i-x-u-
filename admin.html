@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Tài Xỉu Live</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <h1>🔐 Admin Login</h1>
+            <form id="login-form">
+                <input type="password" id="admin-password" placeholder="Nhập mật khẩu admin" required>
+                <button type="submit" class="btn-login">Đăng nhập</button>
+            </form>
+            <p id="login-error" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="dashboard" style="display: none;">
+        <!-- Header -->
+        <div class="admin-header">
+            <h1>👨‍💼 Admin Dashboard</h1>
+            <div class="header-right">
+                <span id="admin-username">Admin</span>
+                <button id="btn-logout" class="btn-logout">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="menu-item active" data-tab="overview">
+                <span>📊 Tổng quan</span>
+            </div>
+            <div class="menu-item" data-tab="users">
+                <span>👥 Người dùng</span>
+            </div>
+            <div class="menu-item" data-tab="ips">
+                <span>🌐 IP Address</span>
+            </div>
+            <div class="menu-item" data-tab="recharge">
+                <span>💳 Nạp tiền</span>
+            </div>
+            <div class="menu-item" data-tab="statistics">
+                <span>📈 Thống kê</span>
+            </div>
+            <div class="menu-item" data-tab="settings">
+                <span>⚙️ Cài đặt</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Tab: Overview -->
+            <div id="tab-overview" class="tab-content active">
+                <h2>📊 Tổng quan</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>👥 Tổng user</h3>
+                        <p class="stat-number" id="total-users">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>🌐 IP đang online</h3>
+                        <p class="stat-number" id="online-ips">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>💰 Tổng nạp hôm nay</h3>
+                        <p class="stat-number" id="today-recharge">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>🎮 Tổng ván chơi</h3>
+                        <p class="stat-number" id="total-games">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Users -->
+            <div id="tab-users" class="tab-content">
+                <h2>👥 Quản lý người dùng</h2>
+                <div class="toolbar">
+                    <input type="text" id="search-users" placeholder="Tìm user..." class="search-input">
+                    <button id="btn-add-user" class="btn-primary">➕ Thêm user</button>
+                </div>
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên user</th>
+                            <th>Email</th>
+                            <th>Vàng</th>
+                            <th>Kim Cương</th>
+                            <th>IP</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-list"></tbody>
+                </table>
+            </div>
+
+            <!-- Tab: IPs -->
+            <div id="tab-ips" class="tab-content">
+                <h2>🌐 Quản lý IP</h2>
+                <div class="toolbar">
+                    <input type="text" id="search-ips" placeholder="Tìm IP..." class="search-input">
+                    <button id="btn-block-ip" class="btn-danger">🚫 Block IP</button>
+                </div>
+                <table class="ips-table">
+                    <thead>
+                        <tr>
+                            <th>IP Address</th>
+                            <th>User</th>
+                            <th>Lần truy cập</th>
+                            <th>Online</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ips-list"></tbody>
+                </table>
+            </div>
+
+            <!-- Tab: Recharge -->
+            <div id="tab-recharge" class="tab-content">
+                <h2>💳 Quản lý nạp tiền</h2>
+                <div class="recharge-form">
+                    <h3>Nạp tiền cho user</h3>
+                    <input type="text" id="recharge-user" placeholder="Tên user" class="input-field">
+                    <input type="number" id="recharge-amount" placeholder="Số tiền (Vàng)" class="input-field">
+                    <select id="recharge-type" class="input-field">
+                        <option value="gold">💛 Vàng</option>
+                        <option value="diamond">💎 Kim Cương</option>
+                    </select>
+                    <textarea id="recharge-note" placeholder="Ghi chú" class="input-field"></textarea>
+                    <button id="btn-recharge" class="btn-primary">💳 Nạp tiền</button>
+                </div>
+                <hr>
+                <h3>Lịch sử nạp tiền</h3>
+                <table class="recharge-table">
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>User</th>
+                            <th>Loại</th>
+                            <th>Số tiền</th>
+                            <th>Ghi chú</th>
+                            <th>Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recharge-list"></tbody>
+                </table>
+            </div>
+
+            <!-- Tab: Statistics -->
+            <div id="tab-statistics" class="tab-content">
+                <h2>📈 Thống kê</h2>
+                <div class="stats-info">
+                    <div class="stat-info-box">
+                        <h3>Người dùng</h3>
+                        <p>Tổng: <strong id="stat-total-users">0</strong></p>
+                        <p>Online: <strong id="stat-online-users">0</strong></p>
+                        <p>Offline: <strong id="stat-offline-users">0</strong></p>
+                    </div>
+                    <div class="stat-info-box">
+                        <h3>Tiền tệ</h3>
+                        <p>Tổng Vàng: <strong id="stat-total-gold">0</strong></p>
+                        <p>Tổng Kim Cương: <strong id="stat-total-diamond">0</strong></p>
+                    </div>
+                    <div class="stat-info-box">
+                        <h3>Game</h3>
+                        <p>Tổng ván: <strong id="stat-total-rounds">0</strong></p>
+                        <p>Hôm nay: <strong id="stat-today-rounds">0</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Settings -->
+            <div id="tab-settings" class="tab-content">
+                <h2>⚙️ Cài đặt</h2>
+                <div class="settings-form">
+                    <h3>Game Settings</h3>
+                    <label>Min Bet: <input type="number" id="min-bet" class="input-field"></label>
+                    <label>Max Bet: <input type="number" id="max-bet" class="input-field"></label>
+                    <label>Số người chơi tối đa: <input type="number" id="max-players" class="input-field"></label>
+                    <button class="btn-primary">💾 Lưu cài đặt</button>
+
+                    <hr>
+
+                    <h3>Đổi mật khẩu admin</h3>
+                    <input type="password" id="old-password" placeholder="Mật khẩu cũ" class="input-field">
+                    <input type="password" id="new-password" placeholder="Mật khẩu mới" class="input-field">
+                    <button class="btn-primary">🔐 Đổi mật khẩu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Edit User -->
+    <div id="modal-edit-user" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">✕</button>
+            <h2>✏️ Chỉnh sửa User</h2>
+            <input type="text" id="edit-username" placeholder="Tên user" class="input-field">
+            <input type="email" id="edit-email" placeholder="Email" class="input-field">
+            <input type="number" id="edit-gold" placeholder="Vàng" class="input-field">
+            <input type="number" id="edit-diamond" placeholder="Kim Cương" class="input-field">
+            <select id="edit-status" class="input-field">
+                <option value="active">✅ Active</option>
+                <option value="blocked">🚫 Blocked</option>
+            </select>
+            <button id="btn-save-user" class="btn-primary">💾 Lưu</button>
+        </div>
+    </div>
+
+    <!-- Modal: Block IP -->
+    <div id="modal-block-ip" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">✕</button>
+            <h2>🚫 Block IP</h2>
+            <input type="text" id="block-ip-address" placeholder="IP address" class="input-field">
+            <textarea id="block-reason" placeholder="Lý do block" class="input-field"></textarea>
+            <button id="btn-confirm-block" class="btn-danger">🚫 Block</button>
+        </div>
+    </div>
+
+    <script src="admin-app.js"></script>
+</body>
+</html>
