@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TÀI XỈU LIVE - Trò chơi Casino</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Share Button -->
+    <button id="btn-share" class="share-button" title="Chia sẻ cho bạn bè">
+        📤 Chia sẻ
+    </button>
+
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="left-panel">
+            <div class="game-header">
+                <h1>🎲 TÀI XỈU LIVE</h1>
+                <p>Casino trực tuyến</p>
+            </div>
+
+            <div class="game-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Phiên</span>
+                    <span class="stat-value" id="current-round">001</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Cược max</span>
+                    <span class="stat-value" id="max-bet">100M</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Người chơi</span>
+                    <span class="stat-value" id="player-count">1.2K</span>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h3>📊 Lịch sử</h3>
+                <div class="history-tiles" id="history-tiles"></div>
+            </div>
+
+            <div class="leaderboard-section">
+                <h3>🏆 Top</h3>
+                <div class="leaderboard-list" id="leaderboard-list"></div>
+            </div>
+        </div>
+
+        <!-- Center Panel -->
+        <div class="center-panel">
+            <div class="live-status">
+                <span class="live-badge">🔴 LIVE</span>
+                <span class="timer" id="game-timer">30</span>
+            </div>
+
+            <div id="canvas-container" class="canvas-area"></div>
+
+            <div class="result-section">
+                <div class="result-box">
+                    <div class="result-display" id="result-display">
+                        <div class="dice-values" id="dice-values">
+                            <div class="dice-show">?</div>
+                            <div class="dice-show">?</div>
+                            <div class="dice-show">?</div>
+                        </div>
+                        <div class="result-text" id="result-text">Chuẩn bị lăn...</div>
+                    </div>
+
+                    <div class="betting-grid">
+                        <button class="bet-option tài-btn" data-bet="TAI">
+                            <span class="bet-label">TÀI</span>
+                            <span class="bet-odds">1:1</span>
+                        </button>
+                        <button class="bet-option xiu-btn" data-bet="XIU">
+                            <span class="bet-label">XỈU</span>
+                            <span class="bet-odds">1:1</span>
+                        </button>
+                        <button class="bet-option baa-btn" data-bet="BAA">
+                            <span class="bet-label">BÀA</span>
+                            <span class="bet-odds">1:8</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-controls">
+                <div class="bet-presets">
+                    <button class="quick-bet" data-amount="10000">10K</button>
+                    <button class="quick-bet" data-amount="50000">50K</button>
+                    <button class="quick-bet" data-amount="100000">100K</button>
+                    <button class="quick-bet" data-amount="500000">500K</button>
+                    <button class="quick-bet" data-amount="1000000">1M</button>
+                </div>
+                <div class="bet-input-group">
+                    <input type="number" id="custom-bet-amount" placeholder="Nhập số tiền">
+                    <button id="btn-all-in" class="all-in-btn">ALL IN</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="user-panel">
+                <div class="user-header">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <p class="user-name" id="user-name">Guest</p>
+                        <p class="user-vip">VIP 0</p>
+                    </div>
+                    <button class="btn-settings" id="btn-info">ℹ️</button>
+                </div>
+
+                <div class="balance-display">
+                    <div class="balance-item gold">
+                        <span class="balance-icon">💛</span>
+                        <div>
+                            <p class="balance-label">Vàng</p>
+                            <p class="balance-amount" id="balance-gold">1M</p>
+                        </div>
+                    </div>
+                    <div class="balance-item diamond">
+                        <span class="balance-icon">💎</span>
+                        <div>
+                            <p class="balance-label">Kim Cương</p>
+                            <p class="balance-amount" id="balance-diamond">50</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-action primary" id="btn-charge">💳 Nạp</button>
+                    <button class="btn-action secondary" id="btn-withdraw">💸 Rút</button>
+                </div>
+            </div>
+
+            <div class="tickets-section">
+                <h3>💰 Cược của bạn</h3>
+                <div class="tickets-list" id="tickets-list"></div>
+            </div>
+
+            <div class="chat-section">
+                <h3>💬 Chat</h3>
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" class="chat-input" placeholder="Tin nhắn...">
+                    <button id="btn-send-chat">Gửi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nạp tiền -->
+    <div id="modal-recharge" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">✕</button>
+            <h2>💳 Nạp tiền</h2>
+            <div class="recharge-amounts">
+                <button class="amount-btn" data-amount="100000">+100K</button>
+                <button class="amount-btn" data-amount="500000">+500K</button>
+                <button class="amount-btn" data-amount="1000000">+1M</button>
+                <button class="amount-btn" data-amount="5000000">+5M</button>
+                <button class="amount-btn" data-amount="10000000">+10M</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Thông tin -->
+    <div id="modal-info" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">✕</button>
+            <h2>📊 Thống kê</h2>
+            <div id="stats-content"></div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="modal-share" class="modal">
+        <div class="modal-content share-modal">
+            <button class="modal-close">✕</button>
+            <h2>📤 Chia sẻ cho bạn bè</h2>
+            
+            <div class="share-section">
+                <h3>🔗 Link server:</h3>
+                <div class="link-box">
+                    <input type="text" id="share-link" readonly>
+                    <button id="btn-copy-link" class="btn-copy">📋 Copy</button>
+                </div>
+                <p class="hint-text">Chia sẻ link này cho bạn bè để chơi cùng</p>
+            </div>
+
+            <div class="share-section">
+                <h3>👥 Người chơi online:</h3>
+                <p id="online-count">Đang tải...</p>
+            </div>
+
+            <div class="share-section">
+                <h3>📱 Trên điện thoại:</h3>
+                <p class="hint-text">
+                    1. Mở Chrome/Safari
+                    2. Gõ link trên
+                    3. Chơi bình thường
+                </p>
+            </div>
+
+            <div class="share-buttons">
+                <button id="btn-share-zalo" class="share-btn zalo">💬 Zalo</button>
+                <button id="btn-share-fb" class="share-btn facebook">👍 Facebook</button>
+                <button id="btn-share-email" class="share-btn email">📧 Email</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game-engine.js"></script>
+    <script src="wallet-system.js"></script>
+    <script src="game-logic.js"></script>
+    <script src="audio-manager.js"></script>
+    <script src="live-system.js"></script>
+    <script src="chat-system.js"></script>
+    <script src="leaderboard-system.js"></script>
+    <script src="ui-modern.js"></script>
+    <script src="share-system.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
